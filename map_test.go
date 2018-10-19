@@ -1,10 +1,10 @@
 package jsonfn
 
 import (
-	"time"
+	"fmt"
 	"strconv"
 	"testing"
-	"fmt"
+	"time"
 )
 
 type Book struct {

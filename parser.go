@@ -1,8 +1,8 @@
 package jsonfn
 
 import (
-	"strings"
 	"regexp"
+	"strings"
 )
 
 var fieldExp = regexp.MustCompile(`(\*)|([\w]+[:\w]*)({([\w,*]*)})?`)

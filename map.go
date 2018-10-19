@@ -1,13 +1,13 @@
 package jsonfn
 
 import (
-	"errors"
-	"strings"
-	"reflect"
 	"encoding/json"
+	"errors"
+	"reflect"
+	"strings"
 )
 
-func Marshal(entity interface{}, fields[]string) ([]byte, error) {
+func Marshal(entity interface{}, fields []string) ([]byte, error) {
 	node := parseFields(fields)
 	m, err := loadRelation(entity, node)
 	if err != nil {
@@ -16,7 +16,6 @@ func Marshal(entity interface{}, fields[]string) ([]byte, error) {
 
 	return json.Marshal(m)
 }
-
 
 func loadRelation(entity interface{}, node *node) (interface{}, error) {
 	if isNil(entity) {

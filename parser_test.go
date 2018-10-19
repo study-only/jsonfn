@@ -1,9 +1,9 @@
 package jsonfn
 
 import (
-	"testing"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"testing"
 )
 
 func TestNode_GetChild(t *testing.T) {
