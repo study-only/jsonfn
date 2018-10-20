@@ -160,10 +160,10 @@ func main() {
 	//	 "Author": {
 	//	    "Id": 2,
 	//	    "Name": "author2"
-	//		"Country": {
-	//		  "Id": 0,
-	//		  "Name": "country0"
-	//		}
+	//	    "Country": {
+	//	      "Id": 0,
+	//	      "Name": "country0"
+	//      }
 	//	  }
 	//	} 
 	jsonStr, _ := jsonfn.Marshal(book, "Id", "Title", "Author{Id,Name}", "Author:Country{}")
