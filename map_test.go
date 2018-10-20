@@ -38,7 +38,38 @@ type Country struct {
 	Name string
 }
 
-func TestMarshal(t *testing.T) {
+func TestMarshalSelectedFields(t *testing.T) {
+	book := Author{
+		Id:        1,
+		Name:      "Liam",
+		CountryId: 2,
+	}
+
+	jsonStr, _ := Marshal(book)
+	if string(jsonStr) != `{"CountryId":2,"Id":1,"Name":"Liam"}` {
+		t.Errorf("unexpected %s", jsonStr)
+	}
+
+	jsonStr, _ = Marshal(book, "*")
+	if string(jsonStr) != `{"CountryId":2,"Id":1,"Name":"Liam"}` {
+		t.Errorf("unexpected %s", jsonStr)
+	}
+}
+
+func TestMarshalAllFields(t *testing.T) {
+	book := Book{
+		Id:        1,
+		Title:     "Jane Eyre",
+		AuthorId:  2,
+		CreatedAt: time.Now(),
+	}
+	jsonStr, _ := Marshal(book, "Id", "Title")
+	if string(jsonStr) != `{"Id":1,"Title":"Jane Eyre"}` {
+		t.Errorf("unexpected %s", jsonStr)
+	}
+}
+
+func TestMarshalEmbedded(t *testing.T) {
 	book := Book{
 		Id:        1,
 		Title:     "Jane Eyre",
@@ -49,4 +80,29 @@ func TestMarshal(t *testing.T) {
 	if string(jsonStr) != `{"Author":{"Country":{"Id":0,"Name":"country0"},"Id":2,"Name":"author2"},"Id":1,"Title":"Jane Eyre"}` {
 		t.Errorf("unexpected %s", jsonStr)
 	}
+}
+
+func TestWontPanic(t *testing.T) {
+	book := Book{
+		Id:        1,
+		Title:     "Jane Eyre",
+		AuthorId:  2,
+		CreatedAt: time.Now(),
+	}
+
+	defer func() {
+		if err := recover(); err != nil {
+			t.Error("marshal panic")
+		}
+	}()
+	Marshal(book,
+		"Id",
+		"foo",
+		"*",
+		"Author{Id,bar}",
+		"Author{*}",
+		"Author:Country{Id,foo}",
+		"Author:Foo{}",
+		"Foo:Bar{*}",
+	)
 }

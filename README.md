@@ -29,15 +29,24 @@ type Author struct {
 	Name      string
 }
 
-// Marshal Author to Book
+// Marshal selected fields
+// bytes = {"Id":1,"Title":"Jane Eyre"}
+bytes, _, := jsonfn.Marshal(Book{Id: 1, Title: "Jane Eyre", AuthorId: 2}, "Id", "Title")
+
+// Marshal all fields
+// bytes = {"AuthorId":2,Id":1,"Title":"Jane Eyre"}
+bytes, _, := jsonfn.Marshal(Book{Id: 1, Title: "Jane Eyre", AuthorId: 2})
+bytes, _, := jsonfn.Marshal(Book{Id: 1, Title: "Jane Eyre", AuthorId: 2}, "*")
+
+// Marshal embedded author to book
 // bytes = {"Author":{"Id":2,"Name":"author2"},"Id":1,"Title":"Jane Eyre"}
 bytes, _, := jsonfn.Marshal(Book{Id: 1, Title: "Jane Eyre", AuthorId: 2}, "Id", "Title", "Author{Id,Name}")
 
-// Marshal lowercase author to Book
+// Marshal lowercase author to book
 // bytes = {"author":{"Id":2,"Name":"author2"},"Id":1,"Title":"Jane Eyre"}
-bytes, _, := jsonfn.Marshal(Book{Id: 1, Title: "Jane Eyre", AuthorId: 2}, "Id", "Title", "author{Id,Name}")
+bytes, _, := jsonfn.Marshal(Book{Id: 1, Title: "Jane Eyre", AuthorId: 2}, "Id", "Title", "author{*}")
 ```
-### Embedded Resource
+### Multilayer Nesting
 ```go
 type Author struct {
 	Id        int
@@ -140,7 +149,7 @@ func main() {
 	//		}
 	//	  }
 	//	} 
-	jsonStr, _ := jsonfn.Marshal(book, "Id", "Title", "Author{Id,Name}", "Author:Country{Id,Name}")
+	jsonStr, _ := jsonfn.Marshal(book, "Id", "Title", "Author{Id,Name}", "Author:Country{}")
 	fmt.Println("%s", jsonStr)
 }
 ```
