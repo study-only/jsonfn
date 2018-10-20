@@ -24,9 +24,22 @@ func (b Book) Author() Author {
 	}
 }
 
+// Slice is also supported
+func (b Book) Tags() []Tag {
+	return []Tag{
+		{Id: 1, Title: "tag1"},
+		{Id: 2, Title: "tag2"},
+	}
+}
+
 type Author struct {
 	Id        int
 	Name      string
+}
+
+type Tag struct {
+	Id    int
+	Title string
 }
 
 // Marshal selected fields
@@ -45,6 +58,10 @@ bytes, _, := jsonfn.Marshal(Book{Id: 1, Title: "Jane Eyre", AuthorId: 2}, "Id", 
 // Marshal lowercase author to book
 // bytes = {"author":{"Id":2,"Name":"author2"},"Id":1,"Title":"Jane Eyre"}
 bytes, _, := jsonfn.Marshal(Book{Id: 1, Title: "Jane Eyre", AuthorId: 2}, "Id", "Title", "author{*}")
+
+// Marshal tags to book
+// bytes = {"Id":1,"Tags":[{"Id":1,"Title":"tag1"},{"Id":2,"Title":"tag2"}]"Title":"Jane Eyre"}
+bytes, _, := jsonfn.Marshal(Book{Id: 1, Title: "Jane Eyre", AuthorId: 2}, "Id", "Title", "Tags{Id,Title}")
 ```
 ### Multilayer Nesting
 ```go

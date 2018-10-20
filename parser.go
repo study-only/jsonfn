@@ -118,5 +118,9 @@ func extractField(field string) (names string, fields []string) {
 		}
 	}
 
+	if len(fields) == 0 {
+		fields = []string{"*"}
+		return
+	}
 	return
 }
