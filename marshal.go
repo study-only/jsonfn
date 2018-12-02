@@ -8,13 +8,19 @@ import (
 )
 
 func Marshal(entity interface{}, fields ...string) ([]byte, error) {
-	node := parseFields(fields)
-	m, err := loadRelation(entity, node)
+
+	result, err := ToMap(entity, fields...)
 	if err != nil {
 		return nil, err
 	}
 
-	return json.Marshal(m)
+	return json.Marshal(result)
+}
+
+func ToMap(entity interface{}, fields ...string) (result interface{}, err error) {
+
+	node := parseFields(fields)
+	return loadRelation(entity, node)
 }
 
 func loadRelation(entity interface{}, node *node) (interface{}, error) {

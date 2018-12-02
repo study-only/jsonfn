@@ -6,6 +6,11 @@ import (
 )
 
 var fieldExp = regexp.MustCompile(`(\*)|([\w]+[:\w]*)({([\w,*]*)})?`)
+var splitExp = regexp.MustCompile(`\*|[\w]+[:\w]*({[\w,*]*})?`)
+
+func SplitFields(fields string) []string {
+	return splitExp.FindAllString(fields, -1)
+}
 
 type node struct {
 	Name     string
