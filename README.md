@@ -3,7 +3,7 @@ Marshal struct method to JSON easily and happily
 
 ## Install
 ```
-go get github.com/liamylian/jsonfn
+go get github.com/study-only/jsonfn
 ```
 ## Usage
 
